@@ -1,4 +1,3 @@
-import { Bind } from "../Script.js";
 export default class CharacterView {
     constructor(root) { this.root = root; }
 

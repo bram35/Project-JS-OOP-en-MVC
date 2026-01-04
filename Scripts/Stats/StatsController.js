@@ -1,53 +1,50 @@
+import EquipmentService from "../Classes/EquipmentService.js";
+
 export default class StatsController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
+        this.equipmentService = new EquipmentService(this.model.key);
+
         this.loadAllStats();
     }
 
     async loadAllStats() {
-        const details = await this.model.getCharacterDetails();
-        if (!details) {
-            this.view.renderMessage("Kon character details niet laden.");
-            return;
+        try {
+            this.view.render();
+
+            const details = await this.model.getCharacterDetails();
+            if (!details) {
+                this.view.renderMessage("Kan niet inladen");
+                return;
+            }
+
+            const charName = details.name;
+            const equipmentWithNames = await this.equipmentService.getEquipmentWithNames(charName);
+            const age = details.age || 0;
+            const deaths = details.deaths || 0;
+            const wallet = await this.model.getWallet();
+            const guilds = await this.model.getGuilds();
+
+            this.view.renderCharacterStats({
+                details,
+                age,
+                deaths,
+                wallet,
+                guilds,
+                equipment: equipmentWithNames
+            });
+
+            console.log("Character Details:", details);
+            console.log("Playtime (s):", age);
+            console.log("Deaths:", deaths);
+            console.log("Wallet:", wallet);
+            console.log("Equipment:", equipmentWithNames);
+            console.log("Guilds:", guilds);
+
+        } catch (err) {
+            console.error("Error:", err);
+            this.view.renderMessage("Kan niet stats ophalen.");
         }
-
-        // Playtime en deaths
-        const age = details.age || details.played || 0; // seconden
-        const deaths = details.deaths || 0;
-
-        // Andere data
-        const wallet = await this.model.getWallet();
-        const inventory = await this.model.getInventory();
-        const guilds = await this.model.getGuilds();
-
-        const equipment = await this.model.getCharacterEquipment();
-        const itemIds = equipment.map(e => e.id);
-        const itemsInfo = await this.model.getItemNames(itemIds);
-
-        // Map item IDs naar namen
-        const equipmentWithNames = equipment.map(equip => {
-            const itemData = itemsInfo.find(item => item.id === equip.id);
-            return {
-                slot: equip.slot,
-                name: itemData ? itemData.name : `Unknown (ID:${equip.id})`
-            };
-        });
-
-        
-
-
-        // Log alles in console
-        console.log("Character Details:", details);
-        console.log("Playtime (s):", age);
-        console.log("Deaths:", deaths);
-        console.log("Wallet:", wallet);
-        console.log("Inventory:", inventory);
-        console.log("Guilds:", guilds);
-        console.log("Equipment:", equipmentWithNames);
-        // Doorgeven aan view
-        this.view.renderCharacterStats({ details, age, deaths, wallet, inventory, guilds });
-
-
     }
 }

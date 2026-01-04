@@ -26,10 +26,6 @@ export default class StatsModel {
         return this.fetchJSON("https://api.guildwars2.com/v2/account/wallet") || [];
     }
 
-    async getInventory() {
-        return this.fetchJSON("https://api.guildwars2.com/v2/account/inventory") || [];
-    }
-
     async getGuilds() {
         return this.fetchJSON("https://api.guildwars2.com/v2/account/guilds") || [];
     }
@@ -44,5 +40,4 @@ export default class StatsModel {
         const details = await this.getCharacterDetails();
         return details ? details.equipment || [] : [];
     }
-
 }

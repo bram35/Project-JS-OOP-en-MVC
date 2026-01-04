@@ -31,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         new CharacterController(charModel, charView, (charName) => {
-            // Ga naar Stats MVC
+   
             const statsModel = new StatsModel(apiKey, charName);
             const statsView = new StatsView(content);
             statsView.render();
-            new StatsController(statsModel, statsView);
+            new StatsController(statsModel, statsView, apiKey);
         });
     }
 });
