@@ -16,9 +16,9 @@ export default class EquipmentService {
     }
 
     async getCharacterEquipment(characterName) {
-        const details = await this.fetchJSON(`${this.baseUrl}/characters/${encodeURIComponent(characterName)}`);
-        if (!details || !details.equipment) return [];
-        return details.equipment;
+        const c = await this.fetchJSON(`${this.baseUrl}/characters/${encodeURIComponent(characterName)}`);
+        if (!c || !c.equipment) return [];
+        return c.equipment;
     }
 
     async getItemNames(itemIds) {
@@ -29,14 +29,20 @@ export default class EquipmentService {
 
     async getEquipmentWithNames(characterName) {
         const equipment = await this.getCharacterEquipment(characterName);
+        if (!equipment.length) return [];
+
         const itemIds = equipment.map(e => e.id);
         const itemsInfo = await this.getItemNames(itemIds);
 
         return equipment.map(equip => {
             const itemData = itemsInfo.find(item => item.id === equip.id);
+
             return {
                 slot: equip.slot,
-                name: itemData ? itemData.name : `Unknown (ID:${equip.id})`
+                id: equip.id,
+                name: itemData?.name || `Unknown (ID:${equip.id})`,
+                icon: itemData?.icon || null,
+                rarity: itemData?.rarity || "Basic"
             };
         });
     }

@@ -1,0 +1,163 @@
+body {
+    background-size: cover;
+}
+
+.stats-container {
+    width: 720px;
+    margin: 20px auto;
+}
+
+.character {
+    background: rgba(20, 20, 20, 0.85);
+    border: 2px solid white;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    color: #fff;
+    text-shadow: 1px 1px 2px black;
+}
+
+.char-name {
+    font-size: 22px;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.profession-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.profession-img {
+    width: 40px;
+    height: 40px;
+    background: #555;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 15px;
+}
+
+.stats,
+.wallet,
+.guilds {
+    flex: 1;
+    background: rgba(20, 20, 20, 0.85);
+    border: 2px solid white;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.stats h3,
+.wallet h3,
+.guilds h3 {
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.coin-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 3px 0;
+}
+
+.coin-img {
+    width: 18px;
+    height: 18px;
+    image-rendering: crisp-edges;
+}
+
+
+.guilds ul {
+    list-style: none;
+    padding: 0;
+}
+
+.guilds li {
+    margin-bottom: 3px;
+    font-size: 13px;
+}
+
+.equipment {
+    background: rgba(20, 20, 20, 0.85);
+    border: 2px solid white;
+    padding: 12px;
+    border-radius: 6px;
+    color: #fff;
+    text-align: center;
+}
+
+.equipment h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.equipment ul {
+    list-style: none;
+    padding: 0;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.equip-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(40, 40, 40, 0.7);
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    border: 1px solid white;
+}
+
+.equip-img {
+    width: 28px;
+    height: 28px;
+    background: #555;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+.inventory {
+    display: none !important;
+}
+
+.rarity-basic {
+    background: rgba(40, 40, 40, 0.7);
+}
+
+.rarity-fine {
+    background: rgba(50, 100, 255, 0.4);
+}
+
+.rarity-masterwork {
+    background: rgba(0, 180, 0, 0.4);
+}
+
+.rarity-rare {
+    background: rgba(255, 220, 0, 0.4);
+}
+
+.rarity-exotic {
+    background: rgba(255, 140, 0, 0.4);
+}
+
+.rarity-ascended {
+    background: rgba(255, 0, 150, 0.4);
+}
+
+.rarity-legendary {
+    background: rgba(150, 0, 255, 0.4);
+}

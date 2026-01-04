@@ -4,15 +4,12 @@ export default class StatsView {
     }
 
     render() {
-        this.root.innerHTML = "<h2>Loading stats...</h2>";
+        this.root.innerHTML = "<h2 class='loading'>Loading stats...</h2>";
     }
 
-    renderMessage(msg) {
-        this.root.innerHTML = `<p>${msg}</p>`;
-    }
 
     renderCharacterStats(data) {
-        const details = data.details || {};
+        const c = data.c || {};
         const age = data.age || 0;
         const deaths = data.deaths || 0;
         const wallet = Array.isArray(data.wallet) ? data.wallet : [];
@@ -32,31 +29,88 @@ export default class StatsView {
         }
 
         this.root.innerHTML = `
-            <h2>${details.name || "Unknown"} - Stats Overview</h2>
+        <div class="stats-container">
+            <div class="character">
+                <h2 class="char-name">${c.name || "Unknown"}</h2>
+                <div class="profession-box">
+                    <img src="Src/Class/${c.profession}_icon.png" class="profession-img" alt="profession">
+                    <p><strong>Profession:</strong> ${c.profession || "Niet beschikbaar"}</p>
+                </div>
+                <p><strong>Race:</strong> ${c.race || "Niet beschikbaar"}</p>
+                <p><strong>Level:</strong> ${c.level || "Niet beschikbaar"}</p>
+            </div>
 
-            <h3>Character Details</h3>
-            <p><strong>Level:</strong> ${details.level || "Niet beschikbaar"}</p>
-            <p><strong>Profession:</strong> ${details.profession || "Niet beschikbaar"}</p>
-            <p><strong>Race:</strong> ${details.race || "Niet beschikbaar"}</p>
+            <div class="row">
 
-            <h3>Stats</h3>
-            <p><strong>Playtime:</strong> ${hours}h ${minutes}m</p>
-            <p><strong>Deaths:</strong> ${deaths}</p>
+                <div class="stats">
+                    <h3>Stats</h3>
+                    <p><strong>Playtime:</strong> ${hours}h ${minutes}m</p>
+                    <p><strong>Deaths:</strong> ${deaths}</p>
+                </div>
 
-            <h3>Wallet</h3>
-            <p><strong>Gold:</strong> ${gold}, <strong>Silver:</strong> ${silver}, <strong>Copper:</strong> ${copper}</p>
+            <div class="wallet">
+                <h3>Wallet</h3>
 
-            <h3>Equipment</h3>
-            <ul>
-            ${equipment.length
-                ? equipment.map(e => `<li><strong>${e.slot}:</strong> ${e.name}</li>`).join("")
-                : "<li>Geen equipment gevonden</li>"}
-            </ul>
+                <p class="coin-row">
+                    <img src="../Src/Gold_coin.png" class="coin-img" alt="gold">
+                    <span>${gold}</span>
+                </p>
 
-            <h3>Guilds</h3>
-            <ul>
-            ${guilds.length ? guilds.map(g => `<li>${g}</li>`).join("") : "<li>Geen guilds / scope ontbreekt</li>"}
-            </ul>
+                <p class="coin-row">
+                    <img src="../Src/Silver_coin.png" class="coin-img" alt="silver">
+                    <span>${silver}</span>
+                </p>
+
+                <p class="coin-row">
+                    <img src="../Src/Copper_coin.png" class="coin-img" alt="copper">
+                    <span>${copper}</span>
+                </p>
+            </div>
+
+                <div class="guilds">
+                    <h3>Guilds</h3>
+                    <ul>
+                        ${guilds.length ? guilds.map(g => `<li>${g}</li>`).join("") : "<li>Geen guild</li>"}
+                    </ul>
+                </div>
+
+            </div>
+
+<div class="equipment">
+    <h3>Equipment</h3>
+    <ul>
+    ${
+        equipment.length
+        ? equipment.map(e => {
+
+            let iconUrl = typeof e.icon === "string" && e.icon.startsWith("http")
+                ? e.icon
+                : null;
+
+            if (!iconUrl && e.icon && e.icon.file_id && e.icon.signature) {
+                iconUrl = `https://render.guildwars2.com/file/${e.icon.signature}/${e.icon.file_id}.png`;
+            }
+
+            if (!iconUrl) {
+                iconUrl = "../Src/placeholder.png";
+            }
+
+            return `
+                <li class="equip-item rarity-${(e.rarity || "Basic").toLowerCase()}">
+
+                    <img src="${iconUrl}" class="equip-img" alt="${e.name}">
+                    <span><strong>${e.slot}:</strong> ${e.name}</span>
+                </li>
+            `;
+        }).join("")
+        : "<li>Geen equipment gevonden</li>"
+    }
+    </ul>
+</div>
+
+        </div>
         `;
+
+        document.body.style.backgroundImage = "url('Src/backgroundGW3.jpg')";
     }
 }

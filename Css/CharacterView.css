@@ -1,0 +1,75 @@
+body {
+    background-size: cover;;
+}
+
+.charTitle {
+    text-align: center;
+    font-size: 42px;
+    color: white;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+#charGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    width: 50%;
+    margin: 20px auto;
+    justify-items: center;
+    gap: 5px;
+}
+
+.charCard {
+    width: 200px;
+    height: 200px;
+    background: white;
+    border-radius: 10px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.charIcon {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.charName {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+}
+
+#keyControls {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#saveKeyBtn {
+    padding: 10px 16px;
+    background: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#deleteKeyBtn {
+    padding: 10px 14px;
+    background: red;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}

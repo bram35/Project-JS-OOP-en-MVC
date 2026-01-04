@@ -26,8 +26,14 @@ export default class StatsModel {
         return this.fetchJSON("https://api.guildwars2.com/v2/account/wallet") || [];
     }
 
-    async getGuilds() {
-        return this.fetchJSON("https://api.guildwars2.com/v2/account/guilds") || [];
+    async getCharacterGuild() {
+        const c = await this.fetchJSON(
+            `https://api.guildwars2.com/v2/characters/${encodeURIComponent(this.charName)}/core`
+        );
+
+        if (!c || !c.guild) return null;
+        const guildInfo = await this.fetchJSON(`https://api.guildwars2.com/v2/guild/${c.guild}`);
+        return guildInfo ? { name: guildInfo.name, tag: guildInfo.tag } : null;
     }
 
     async getItemNames(itemIds) {
@@ -37,7 +43,7 @@ export default class StatsModel {
     }
 
     async getCharacterEquipment() {
-        const details = await this.getCharacterDetails();
-        return details ? details.equipment || [] : [];
+        const c = await this.getCharacterDetails();
+        return c ? c.equipment || [] : [];
     }
 }

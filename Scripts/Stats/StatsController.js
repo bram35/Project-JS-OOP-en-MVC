@@ -13,34 +13,34 @@ export default class StatsController {
         try {
             this.view.render();
 
-            const details = await this.model.getCharacterDetails();
-            if (!details) {
+            const c = await this.model.getCharacterDetails();
+            if (!c) {
                 this.view.renderMessage("Kan niet inladen");
                 return;
             }
 
-            const charName = details.name;
+            const charName = c.name;
             const equipmentWithNames = await this.equipmentService.getEquipmentWithNames(charName);
-            const age = details.age || 0;
-            const deaths = details.deaths || 0;
+            const age = c.age || 0;
+            const deaths = c.deaths || 0;
             const wallet = await this.model.getWallet();
-            const guilds = await this.model.getGuilds();
+            const charGuild = await this.model.getCharacterGuild();
 
             this.view.renderCharacterStats({
-                details,
+                c,
                 age,
                 deaths,
                 wallet,
-                guilds,
+                guilds: charGuild ? [`${charGuild.tag} - ${charGuild.name}`] : [],
                 equipment: equipmentWithNames
             });
 
-            console.log("Character Details:", details);
+            console.log("Character Details:", c);
             console.log("Playtime (s):", age);
             console.log("Deaths:", deaths);
             console.log("Wallet:", wallet);
             console.log("Equipment:", equipmentWithNames);
-            console.log("Guilds:", guilds);
+            console.log("Guilds:", charGuild);
 
         } catch (err) {
             console.error("Error:", err);
