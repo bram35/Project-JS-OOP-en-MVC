@@ -1,5 +1,7 @@
 export default class CharacterModel {
-    constructor(key) { this.key = key; }
+    constructor(key) { 
+        this.key = key;
+    }
 
     async fetchJSON(url) {
         const res = await fetch(`${url}?access_token=${this.key}`);

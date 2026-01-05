@@ -13,35 +13,34 @@ export const Bind = (target, event, handler) => target.addEventListener(event, h
 document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("content");
 
-    const savedKey = localStorage.getItem("apiKey");
+    const apiModel = new APIModel();
+
+    const savedKey = apiModel.getKey();
 
     if (savedKey) {
         startCharacterFlow(savedKey);
         return;
     }
 
-    const apiModel = new APIModel();
     const apiView = new APIView(content);
-
     new APIController(apiModel, apiView, onApiSuccess);
     apiView.render();
 
     function onApiSuccess(apiKey) {
-        localStorage.setItem("apiKey", apiKey);
-
+        apiModel.saveKey(apiKey);
         startCharacterFlow(apiKey);
     }
 
     function startCharacterFlow(apiKey) {
-        const charModel = new CharacterModel(apiKey);
+        const charModel = new CharacterModel(apiModel.getKey());
         const charView = new CharacterView(content);
         charView.render();
 
-        new CharacterController(charModel, charView, (charName) => {
-            const statsModel = new StatsModel(apiKey, charName);
+        new CharacterController(charModel, charView, apiModel, (charName) => {
+            const statsModel = new StatsModel(apiModel.getKey(), charName);
             const statsView = new StatsView(content);
             statsView.render();
-            new StatsController(statsModel, statsView, apiKey);
+            new StatsController(statsModel, statsView, apiModel.getKey());
         });
     }
 });

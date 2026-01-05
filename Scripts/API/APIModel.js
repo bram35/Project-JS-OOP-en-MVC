@@ -14,4 +14,16 @@ export default class APIModel {
             return { valid: false, reason: err.message };
         }
     }
+
+    saveKey(key) {
+        localStorage.setItem('gw2_api_key', key);
+    }
+
+    getKey() {
+        return localStorage.getItem('gw2_api_key');
+    }
+
+    deleteKey() {
+        localStorage.removeItem('gw2_api_key');
+    }
 }
